@@ -1,19 +1,11 @@
 import { io } from "socket.io-client";
 
 const socket = io(
-  "http://localhost:5000",
+  "https://complaintms-backend-7d29.onrender.com",
   {
     transports: [
       "websocket",
     ],
-
-    autoConnect: true,
-
-    reconnection: true,
-
-    reconnectionAttempts: 5,
-
-    reconnectionDelay: 1000,
   }
 );
 

@@ -30,10 +30,10 @@ const server =
 const allowedOrigins = [
   "http://localhost:5173",
 
+  "https://online-complaint-management-system-nine.vercel.app",
+
   "https://online-complaint-management-system-ed6710kws.vercel.app",
 ];
-
-
 // Socket.io
 const io = new Server(server, {
   cors: {
