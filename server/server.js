@@ -14,7 +14,6 @@ const { Server } = require("socket.io");
 
 const connectDB = require("./config/db");
 
-
 dotenv.config();
 
 connectDB();
@@ -27,16 +26,26 @@ const server =
   http.createServer(app);
 
 
+// Allowed Origins
+const allowedOrigins = [
+  "http://localhost:5173",
+
+  "https://online-complaint-management-system-ed6710kws.vercel.app",
+];
+
+
 // Socket.io
 const io = new Server(server, {
   cors: {
     origin:
-      "http://localhost:5173",
+      allowedOrigins,
 
     methods: [
       "GET",
       "POST",
     ],
+
+    credentials: true,
   },
 });
 
@@ -115,7 +124,14 @@ io.on("connection", (socket) => {
 
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin:
+      allowedOrigins,
+
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
