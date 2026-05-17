@@ -34,6 +34,10 @@ const AdminComplaints = () => {
     setSelectedComplaint] =
     useState(null);
 
+    const [previewImage,
+  setPreviewImage] =
+  useState("");
+
   // Filters
   const [search, setSearch] =
     useState("");
@@ -276,6 +280,30 @@ const fetchWorkers = async () => {
   return (
     <DashboardLayout>
       {/* Heading */}
+
+
+      {/* Fullscreen Image Preview */}
+{previewImage && (
+  <div className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4">
+
+    {/* Close */}
+    <button
+      onClick={() =>
+        setPreviewImage("")
+      }
+      className="absolute top-5 right-5 text-white text-5xl hover:text-red-400 transition"
+    >
+      ✕
+    </button>
+
+    {/* Image */}
+    <img
+      src={previewImage}
+      alt="Preview"
+      className="max-w-full max-h-full rounded-2xl shadow-2xl object-contain"
+    />
+  </div>
+)} 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold">
@@ -569,10 +597,15 @@ const fetchWorkers = async () => {
     selectedComplaint.images.length >
       0 ? (
       <img
-        src={`http://localhost:5000/uploads/${selectedComplaint.images[0]}`}
-        alt="Complaint"
-        className="w-full h-72 object-cover rounded-2xl border"
-      />
+  src={`http://localhost:5000/uploads/${selectedComplaint.images[0]}`}
+  alt="Complaint"
+  onClick={() =>
+    setPreviewImage(
+      `http://localhost:5000/uploads/${selectedComplaint.images[0]}`
+    )
+  }
+  className="w-full h-72 object-cover rounded-2xl border cursor-pointer hover:scale-[1.02] transition"
+/>
     ) : (
       <div className="w-full h-72 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
         No Image

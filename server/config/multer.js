@@ -4,10 +4,14 @@ const path = require("path");
 
 const fs = require("fs");
 
-// Ensure uploads folder exists
+// Correct uploads folder
 const uploadPath =
-  "uploads/";
+  path.join(
+    __dirname,
+    "../uploads"
+  );
 
+// Ensure uploads folder exists
 if (
   !fs.existsSync(uploadPath)
 ) {
