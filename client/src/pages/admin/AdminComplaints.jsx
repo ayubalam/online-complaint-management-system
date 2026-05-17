@@ -23,6 +23,9 @@ import {
 
 import ComplaintTimeline from "../../components/common/ComplaintTimeline";
 
+const BACKEND_URL =
+  "https://complaintms-backend-7d29.onrender.com";
+
 const AdminComplaints = () => {
   const [complaints, setComplaints] =
     useState([]);
@@ -30,69 +33,87 @@ const AdminComplaints = () => {
   const [workers, setWorkers] =
     useState([]);
 
-  const [selectedComplaint,
-    setSelectedComplaint] =
-    useState(null);
+  const [
+    selectedComplaint,
+    setSelectedComplaint,
+  ] = useState(null);
 
   // Filters
   const [search, setSearch] =
     useState("");
 
-  const [statusFilter,
-    setStatusFilter] =
-    useState("All");
+  const [
+    statusFilter,
+    setStatusFilter,
+  ] = useState("All");
 
-  const [priorityFilter,
-    setPriorityFilter] =
-    useState("All");
+  const [
+    priorityFilter,
+    setPriorityFilter,
+  ] = useState("All");
 
-  const [sortOrder,
-    setSortOrder] =
+  const [sortOrder, setSortOrder] =
     useState("Newest");
 
   // Pagination
-  const [currentPage,
-    setCurrentPage] =
-    useState(1);
+  const [
+    currentPage,
+    setCurrentPage,
+  ] = useState(1);
 
   const complaintsPerPage = 5;
 
   // Fetch Complaints
-  const fetchComplaints = async () => {
-    try {
-      const data =
-        await getAllComplaints();
+  const fetchComplaints =
+    async () => {
+      try {
+        const data =
+          await getAllComplaints();
 
-      setComplaints(data);
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to load complaints"
-      );
-    }
-  };
+        setComplaints(data);
+      } catch (error) {
+        toast.error(
+          error.response?.data
+            ?.message ||
+            "Failed to load complaints"
+        );
+      }
+    };
 
   // Fetch Workers
-  const fetchWorkers = async () => {
-    try {
-      const data =
-        await getWorkers();
+  const fetchWorkers =
+    async () => {
+      try {
+        const data =
+          await getWorkers();
 
-      setWorkers(data);
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to load workers"
-      );
-    }
-  };
+        // Filter only workers
+        const onlyWorkers =
+          data.filter(
+            (user) =>
+              user.role ===
+              "worker"
+          );
+
+        setWorkers(
+          onlyWorkers
+        );
+      } catch (error) {
+        toast.error(
+          error.response?.data
+            ?.message ||
+            "Failed to load workers"
+        );
+      }
+    };
 
   useEffect(() => {
-    const loadData = async () => {
-      await fetchComplaints();
+    const loadData =
+      async () => {
+        await fetchComplaints();
 
-      await fetchWorkers();
-    };
+        await fetchWorkers();
+      };
 
     loadData();
   }, []);
@@ -172,7 +193,10 @@ const AdminComplaints = () => {
 
   // Assign Worker
   const handleAssignWorker =
-    async (id, workerId) => {
+    async (
+      id,
+      workerId
+    ) => {
       try {
         await assignWorker(
           id,
@@ -224,7 +248,8 @@ const AdminComplaints = () => {
       })
       .sort((a, b) => {
         if (
-          sortOrder === "Newest"
+          sortOrder ===
+          "Newest"
         ) {
           return (
             new Date(
@@ -290,105 +315,6 @@ const AdminComplaints = () => {
         </button>
       </div>
 
-      {/* Filters */}
-      <div className="bg-white rounded-2xl shadow-md p-4 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Search */}
-          <input
-            type="text"
-            placeholder="Search complaints..."
-            value={search}
-            onChange={(e) =>
-              setSearch(
-                e.target.value
-              )
-            }
-            className="border rounded-xl p-3"
-          />
-
-          {/* Status */}
-          <select
-            value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(
-                e.target.value
-              )
-            }
-            className="border rounded-xl p-3"
-          >
-            <option value="All">
-              All Status
-            </option>
-
-            <option value="Pending">
-              Pending
-            </option>
-
-            <option value="Assigned">
-              Assigned
-            </option>
-
-            <option value="In Progress">
-              In Progress
-            </option>
-
-            <option value="Resolved">
-              Resolved
-            </option>
-
-            <option value="Rejected">
-              Rejected
-            </option>
-          </select>
-
-          {/* Priority */}
-          <select
-            value={priorityFilter}
-            onChange={(e) =>
-              setPriorityFilter(
-                e.target.value
-              )
-            }
-            className="border rounded-xl p-3"
-          >
-            <option value="All">
-              All Priority
-            </option>
-
-            <option value="Low">
-              Low
-            </option>
-
-            <option value="Medium">
-              Medium
-            </option>
-
-            <option value="High">
-              High
-            </option>
-          </select>
-
-          {/* Sort */}
-          <select
-            value={sortOrder}
-            onChange={(e) =>
-              setSortOrder(
-                e.target.value
-              )
-            }
-            className="border rounded-xl p-3"
-          >
-            <option>
-              Newest
-            </option>
-
-            <option>
-              Oldest
-            </option>
-          </select>
-        </div>
-      </div>
-
       {/* Complaint Cards */}
       <div className="space-y-6">
         {currentComplaints.map(
@@ -397,9 +323,7 @@ const AdminComplaints = () => {
               key={complaint._id}
               className="bg-white rounded-2xl shadow-md p-5"
             >
-              {/* Header */}
               <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-center">
-                {/* User */}
                 <div>
                   <p className="text-sm text-gray-500">
                     User
@@ -413,7 +337,6 @@ const AdminComplaints = () => {
                   </h2>
                 </div>
 
-                {/* Title */}
                 <div>
                   <p className="text-sm text-gray-500">
                     Complaint
@@ -426,7 +349,6 @@ const AdminComplaints = () => {
                   </h2>
                 </div>
 
-                {/* Category */}
                 <div>
                   <p className="text-sm text-gray-500">
                     Category
@@ -439,7 +361,6 @@ const AdminComplaints = () => {
                   </h2>
                 </div>
 
-                {/* Priority */}
                 <div>
                   <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">
                     {
@@ -448,7 +369,6 @@ const AdminComplaints = () => {
                   </span>
                 </div>
 
-                {/* Status */}
                 <div>
                   <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">
                     {
@@ -457,7 +377,6 @@ const AdminComplaints = () => {
                   </span>
                 </div>
 
-                {/* Button */}
                 <div>
                   <button
                     onClick={() =>
@@ -476,68 +395,10 @@ const AdminComplaints = () => {
         )}
       </div>
 
-      {/* Pagination */}
-      <div className="flex items-center justify-center gap-4 mt-8">
-        <button
-          disabled={
-            currentPage === 1
-          }
-          onClick={() =>
-            setCurrentPage(
-              currentPage - 1
-            )
-          }
-          className="bg-gray-200 px-4 py-2 rounded-xl disabled:opacity-50"
-        >
-          Previous
-        </button>
-
-        <div className="flex gap-2">
-          {[
-            ...Array(
-              totalPages
-            ),
-          ].map((_, index) => (
-            <button
-              key={index}
-              onClick={() =>
-                setCurrentPage(
-                  index + 1
-                )
-              }
-              className={`w-10 h-10 rounded-xl ${
-                currentPage ===
-                index + 1
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-200"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-
-        <button
-          disabled={
-            currentPage ===
-            totalPages
-          }
-          onClick={() =>
-            setCurrentPage(
-              currentPage + 1
-            )
-          }
-          className="bg-gray-200 px-4 py-2 rounded-xl disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
-
       {/* Modal */}
       {selectedComplaint && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white w-full max-w-5xl rounded-3xl shadow-2xl p-8 overflow-y-auto max-h-[95vh]">
-            {/* Top */}
             <div className="flex items-center justify-between mb-8">
               <h1 className="text-3xl font-bold">
                 Complaint Details
@@ -555,15 +416,20 @@ const AdminComplaints = () => {
               </button>
             </div>
 
-            {/* Main */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Left */}
+              {/* LEFT */}
               <div>
                 {selectedComplaint.image ? (
                   <img
-                    src={`http://localhost:5000/uploads/${selectedComplaint.image}`}
+                    src={`${BACKEND_URL}/uploads/${selectedComplaint.image}`}
                     alt="Complaint"
                     className="w-full h-72 object-cover rounded-2xl border"
+                    onError={(
+                      e
+                    ) => {
+                      e.target.src =
+                        "https://via.placeholder.com/600x400?text=No+Image";
+                    }}
                   />
                 ) : (
                   <div className="w-full h-72 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
@@ -585,9 +451,8 @@ const AdminComplaints = () => {
                 </div>
               </div>
 
-              {/* Right */}
+              {/* RIGHT */}
               <div className="space-y-6">
-                {/* Info */}
                 <div className="bg-gray-50 rounded-2xl p-5">
                   <h2 className="text-2xl font-bold mb-5">
                     Complaint Info

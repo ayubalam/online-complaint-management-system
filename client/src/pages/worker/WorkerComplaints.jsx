@@ -18,23 +18,25 @@ import {
 
 import ComplaintTimeline from "../../components/common/ComplaintTimeline";
 
+const BACKEND_URL =
+  "https://complaintms-backend-7d29.onrender.com";
+
 const WorkerComplaints = () => {
   const [complaints, setComplaints] =
     useState([]);
 
-  const [selectedComplaint,
-    setSelectedComplaint] =
-    useState(null);
+  const [
+    selectedComplaint,
+    setSelectedComplaint,
+  ] = useState(null);
 
   const [message, setMessage] =
     useState("");
 
-  const [typingUser,
-    setTypingUser] =
+  const [typingUser, setTypingUser] =
     useState("");
 
-  const [previewImage,
-    setPreviewImage] =
+  const [previewImage, setPreviewImage] =
     useState("");
 
   // Auto Scroll Ref
@@ -48,19 +50,21 @@ const WorkerComplaints = () => {
     );
 
   // Fetch Complaints
-  const fetchComplaints = async () => {
-    try {
-      const data =
-        await getWorkerComplaints();
+  const fetchComplaints =
+    async () => {
+      try {
+        const data =
+          await getWorkerComplaints();
 
-      setComplaints(data);
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to load tasks"
-      );
-    }
-  };
+        setComplaints(data);
+      } catch (error) {
+        toast.error(
+          error.response?.data
+            ?.message ||
+            "Failed to load tasks"
+        );
+      }
+    };
 
   useEffect(() => {
     const loadComplaints =
@@ -222,7 +226,6 @@ const WorkerComplaints = () => {
 
   return (
     <DashboardLayout>
-
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold">
@@ -250,10 +253,8 @@ const WorkerComplaints = () => {
               key={complaint._id}
               className="bg-white rounded-2xl shadow-lg p-6"
             >
-
               {/* Top Section */}
               <div className="grid grid-cols-1 md:grid-cols-6 gap-6 items-center">
-
                 {/* User */}
                 <div>
                   <p className="text-sm text-gray-500">
@@ -283,7 +284,6 @@ const WorkerComplaints = () => {
 
                 {/* Images */}
                 <div className="flex gap-2 flex-wrap">
-
                   {complaint.images &&
                   complaint.images
                     .length > 0 ? (
@@ -296,13 +296,19 @@ const WorkerComplaints = () => {
                         ) => (
                           <img
                             key={index}
-                            src={`http://localhost:5000/uploads/${image}`}
+                            src={`${BACKEND_URL}/uploads/${image}`}
                             alt="Complaint"
                             onClick={() =>
                               setPreviewImage(
-                                `http://localhost:5000/uploads/${image}`
+                                `${BACKEND_URL}/uploads/${image}`
                               )
                             }
+                            onError={(
+                              e
+                            ) => {
+                              e.target.src =
+                                "https://via.placeholder.com/150?text=No+Image";
+                            }}
                             className="w-16 h-16 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
                           />
                         )
@@ -362,12 +368,9 @@ const WorkerComplaints = () => {
       {/* Modal */}
       {selectedComplaint && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-
           <div className="bg-white w-full max-w-6xl rounded-3xl shadow-2xl p-8 overflow-y-auto max-h-[95vh]">
-
             {/* Top */}
             <div className="flex items-center justify-between mb-8">
-
               <h1 className="text-3xl font-bold">
                 Complaint Details
               </h1>
@@ -386,16 +389,13 @@ const WorkerComplaints = () => {
 
             {/* Main Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-
               {/* Left */}
               <div>
-
                 {/* Images Gallery */}
                 {selectedComplaint.images &&
                 selectedComplaint.images
                   .length > 0 ? (
                   <div className="grid grid-cols-2 gap-4">
-
                     {selectedComplaint.images.map(
                       (
                         image,
@@ -403,13 +403,19 @@ const WorkerComplaints = () => {
                       ) => (
                         <img
                           key={index}
-                          src={`http://localhost:5000/uploads/${image}`}
+                          src={`${BACKEND_URL}/uploads/${image}`}
                           alt="Complaint"
                           onClick={() =>
                             setPreviewImage(
-                              `http://localhost:5000/uploads/${image}`
+                              `${BACKEND_URL}/uploads/${image}`
                             )
                           }
+                          onError={(
+                            e
+                          ) => {
+                            e.target.src =
+                              "https://via.placeholder.com/600x400?text=No+Image";
+                          }}
                           className="w-full h-48 object-cover rounded-2xl border cursor-pointer hover:opacity-90 hover:scale-[1.02] transition"
                         />
                       )
@@ -423,7 +429,6 @@ const WorkerComplaints = () => {
 
                 {/* Description */}
                 <div className="mt-8">
-
                   <h2 className="text-2xl font-bold mb-4">
                     Description
                   </h2>
@@ -449,16 +454,13 @@ const WorkerComplaints = () => {
 
               {/* Right */}
               <div className="space-y-8">
-
                 {/* Complaint Info */}
                 <div className="bg-gray-50 rounded-2xl p-6">
-
                   <h2 className="text-2xl font-bold mb-6">
                     Complaint Info
                   </h2>
 
                   <div className="space-y-4">
-
                     <p>
                       <span className="font-semibold">
                         User:
@@ -510,7 +512,6 @@ const WorkerComplaints = () => {
 
                 {/* Status Update */}
                 <div className="bg-gray-50 rounded-2xl p-6">
-
                   <h2 className="text-2xl font-bold mb-6">
                     Update Status
                   </h2>
@@ -540,110 +541,6 @@ const WorkerComplaints = () => {
                     </option>
                   </select>
                 </div>
-
-                {/* Chat Section */}
-                <div className="bg-white border rounded-2xl p-5 shadow-sm">
-
-                  <h2 className="text-2xl font-bold mb-5">
-                    Complaint Chat
-                  </h2>
-
-                  {/* Messages */}
-                  <div className="h-80 overflow-y-auto space-y-4 border rounded-2xl p-4 bg-gray-50">
-
-                    {selectedComplaint.messages &&
-                    selectedComplaint.messages
-                      .length > 0 ? (
-                      selectedComplaint.messages.map(
-                        (
-                          msg,
-                          index
-                        ) => (
-                          <div
-                            key={index}
-                            className={`flex ${
-                              msg.senderRole ===
-                              "worker"
-                                ? "justify-end"
-                                : "justify-start"
-                            }`}
-                          >
-                            <div
-                              className={`max-w-[75%] px-4 py-3 rounded-2xl shadow-sm ${
-                                msg.senderRole ===
-                                "worker"
-                                  ? "bg-green-100 text-green-900"
-                                  : "bg-indigo-100 text-indigo-900"
-                              }`}
-                            >
-                              <p className="text-xs font-bold mb-1 capitalize">
-                                {
-                                  msg.senderRole
-                                }
-                              </p>
-
-                              <p className="text-sm">
-                                {msg.text}
-                              </p>
-
-                              <p className="text-[10px] mt-2 opacity-70">
-                                {new Date(
-                                  msg.createdAt
-                                ).toLocaleString()}
-                              </p>
-                            </div>
-                          </div>
-                        )
-                      )
-                    ) : (
-                      <div className="text-center text-gray-400 py-10">
-                        No messages yet
-                      </div>
-                    )}
-
-                    {/* Typing */}
-                    {typingUser &&
-                      typingUser !==
-                        "worker" && (
-                        <div className="text-sm text-gray-500 italic">
-                          {
-                            typingUser
-                          }{" "}
-                          is typing...
-                        </div>
-                      )}
-
-                    {/* Auto Scroll */}
-                    <div
-                      ref={
-                        messagesEndRef
-                      }
-                    />
-                  </div>
-
-                  {/* Input */}
-                  <div className="flex gap-3 mt-4">
-
-                    <input
-                      type="text"
-                      placeholder="Type message..."
-                      value={message}
-                      onChange={
-                        handleTyping
-                      }
-                      className="flex-1 border rounded-2xl px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-200"
-                    />
-
-                    <button
-                      onClick={
-                        handleSendMessage
-                      }
-                      className="bg-indigo-600 text-white px-6 rounded-2xl hover:bg-indigo-700 transition"
-                    >
-                      Send
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -653,7 +550,6 @@ const WorkerComplaints = () => {
       {/* Fullscreen Image Preview */}
       {previewImage && (
         <div className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4">
-
           {/* Close */}
           <button
             onClick={() =>

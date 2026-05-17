@@ -12,6 +12,9 @@ import {
   updateProfile,
 } from "../../services/userService";
 
+const BACKEND_URL =
+  "https://complaintms-backend-7d29.onrender.com";
+
 const ProfilePage = () => {
   const [profile, setProfile] =
     useState(null);
@@ -135,13 +138,19 @@ const ProfilePage = () => {
             <div>
               {profile.profileImage ? (
                 <img
-                  src={`http://localhost:5000/uploads/${profile.profileImage}`}
+                  src={`${BACKEND_URL}/uploads/${profile.profileImage}`}
                   alt="Profile"
                   className="w-40 h-40 rounded-full object-cover border-4 border-indigo-500"
+                  onError={(
+                    e
+                  ) => {
+                    e.target.src =
+                      "https://via.placeholder.com/300x300?text=Profile";
+                  }}
                 />
               ) : (
                 <div className="w-40 h-40 rounded-full bg-indigo-100 flex items-center justify-center text-5xl font-bold text-indigo-600">
-                  {profile.name[0]}
+                  {profile.name?.[0]}
                 </div>
               )}
             </div>
@@ -223,6 +232,7 @@ const ProfilePage = () => {
                   handleChange
                 }
                 className="w-full border p-4 rounded-xl"
+                placeholder="Enter new password"
               />
             </div>
 
@@ -234,6 +244,7 @@ const ProfilePage = () => {
 
               <input
                 type="file"
+                accept="image/*"
                 onChange={(e) =>
                   setImage(
                     e.target.files[0]
