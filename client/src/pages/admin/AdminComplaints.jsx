@@ -81,7 +81,8 @@ const AdminComplaints = () => {
       setWorkers(
   data.filter(
     (user) =>
-      user.role === "worker"
+      user.role?.toLowerCase() ===
+      "worker"
   )
 );
     } catch (error) {

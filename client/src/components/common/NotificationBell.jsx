@@ -49,7 +49,7 @@ const NotificationBell = () => {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-4 w-96 bg-white shadow-2xl rounded-3xl overflow-hidden z-50 border">
+        <div className="absolute right-0 mt-4 w-[95vw] sm:w-96 max-w-[380px] bg-white shadow-2xl rounded-3xl overflow-hidden z-50 border">
 
           {/* Header */}
           <div className="bg-indigo-600 text-white px-5 py-4 flex items-center justify-between">
@@ -87,7 +87,7 @@ const NotificationBell = () => {
                 ) => (
                   <div
                     key={index}
-                    className={`p-4 rounded-2xl mb-4 shadow-sm border transition ${
+                    className={`p-4 rounded-2xl mb-4 shadow-sm border transition overflow-hidden ${
                       item.read ===
                       true
                         ? "bg-gray-100 opacity-70"
@@ -96,7 +96,7 @@ const NotificationBell = () => {
                   >
 
                     {/* Message */}
-                    <p className="text-sm text-gray-800 leading-6">
+                    <p className="text-sm text-gray-800 leading-6 break-words whitespace-normal">
                       {
                         item.message
                       }
