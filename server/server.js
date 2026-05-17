@@ -14,7 +14,10 @@ const { Server } = require("socket.io");
 
 const connectDB = require("./config/db");
 
-dotenv.config();
+// Load ENV from server/.env
+dotenv.config({
+  path: "./server/.env",
+});
 
 connectDB();
 
@@ -34,6 +37,8 @@ const allowedOrigins = [
 
   "https://online-complaint-management-system-ed6710kws.vercel.app",
 ];
+
+
 // Socket.io
 const io = new Server(server, {
   cors: {
