@@ -26,7 +26,10 @@ router.get(
     try {
       const workers =
         await User.find({
-          role: "worker",
+          role: {
+            $regex:
+              /^worker$/i,
+          },
         }).select(
           "name email"
         );
@@ -105,6 +108,7 @@ router.put(
     }
   }
 );
+
 
 // Profile
 router.get(

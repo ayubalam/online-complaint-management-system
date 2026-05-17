@@ -83,7 +83,34 @@ const updateProfile = async (
 };
 
 
+// Get Workers
+const getWorkers = async (
+  req,
+  res
+) => {
+  try {
+    const workers =
+      await User.find({
+        role: {
+          $regex:
+            /^worker$/i,
+        },
+      }).select(
+        "-password"
+      );
+
+    res.json(workers);
+  } catch (error) {
+    res.status(500).json({
+      message:
+        error.message,
+    });
+  }
+};
+
+
 module.exports = {
   getProfile,
   updateProfile,
+  getWorkers,
 };

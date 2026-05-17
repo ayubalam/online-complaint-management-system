@@ -17,9 +17,17 @@ const NotificationBell = () => {
     markAllRead,
   } = useNotifications();
 
+  // Safe Notifications
+  const safeNotifications =
+    Array.isArray(
+      notifications
+    )
+      ? notifications
+      : [];
+
   // Unread Count
   const unreadCount =
-    notifications.filter(
+    safeNotifications.filter(
       (n) => n.read === false
     ).length;
 
@@ -58,7 +66,7 @@ const NotificationBell = () => {
               Notifications
             </h2>
 
-            {notifications.length >
+            {safeNotifications.length >
               0 && (
               <button
                 onClick={
@@ -74,13 +82,13 @@ const NotificationBell = () => {
           {/* Notification List */}
           <div className="max-h-[500px] overflow-y-auto p-4 bg-gray-50">
 
-            {notifications.length ===
+            {safeNotifications.length ===
             0 ? (
               <div className="text-center py-10 text-gray-500">
                 No notifications
               </div>
             ) : (
-              notifications.map(
+              safeNotifications.map(
                 (
                   item,
                   index
