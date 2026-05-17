@@ -57,12 +57,12 @@ const NotificationBell = () => {
 
       {/* Dropdown */}
       {open && (
-        <div className="absolute right-0 mt-4 w-[95vw] sm:w-96 max-w-[380px] bg-white shadow-2xl rounded-3xl overflow-hidden z-50 border">
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 sm:absolute sm:right-0 sm:left-auto sm:translate-x-0 mt-2 w-[92vw] sm:w-96 max-w-[380px] bg-white shadow-2xl rounded-3xl overflow-hidden z-50 border">
 
           {/* Header */}
-          <div className="bg-indigo-600 text-white px-5 py-4 flex items-center justify-between">
+          <div className="bg-indigo-600 text-white px-4 py-4 flex items-center justify-between gap-2">
 
-            <h2 className="text-xl font-bold">
+            <h2 className="text-lg sm:text-xl font-bold">
               Notifications
             </h2>
 
@@ -72,7 +72,7 @@ const NotificationBell = () => {
                 onClick={
                   markAllRead
                 }
-                className="text-sm bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg transition"
+                className="text-xs sm:text-sm bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg transition whitespace-nowrap"
               >
                 Mark all read
               </button>
@@ -80,7 +80,7 @@ const NotificationBell = () => {
           </div>
 
           {/* Notification List */}
-          <div className="max-h-[500px] overflow-y-auto p-4 bg-gray-50">
+          <div className="max-h-[70vh] overflow-y-auto p-3 sm:p-4 bg-gray-50">
 
             {safeNotifications.length ===
             0 ? (
@@ -95,7 +95,7 @@ const NotificationBell = () => {
                 ) => (
                   <div
                     key={index}
-                    className={`p-4 rounded-2xl mb-4 shadow-sm border transition overflow-hidden ${
+                    className={`w-full p-4 rounded-2xl mb-4 shadow-sm border transition overflow-hidden ${
                       item.read ===
                       true
                         ? "bg-gray-100 opacity-70"
@@ -104,14 +104,14 @@ const NotificationBell = () => {
                   >
 
                     {/* Message */}
-                    <p className="text-sm text-gray-800 leading-6 break-words whitespace-normal">
+                    <p className="text-sm text-gray-800 leading-6 break-words whitespace-normal overflow-hidden">
                       {
                         item.message
                       }
                     </p>
 
                     {/* Time */}
-                    <p className="text-xs text-gray-400 mt-3">
+                    <p className="text-xs text-gray-400 mt-3 break-words">
                       {new Date(
                         item.createdAt
                       ).toLocaleString()}
@@ -122,7 +122,7 @@ const NotificationBell = () => {
                       false && (
                       <div className="mt-2 flex items-center gap-2">
 
-                        <span className="w-2 h-2 bg-indigo-600 rounded-full" />
+                        <span className="w-2 h-2 bg-indigo-600 rounded-full shrink-0" />
 
                         <span className="text-xs text-indigo-600 font-medium">
                           New

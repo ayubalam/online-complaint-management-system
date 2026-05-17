@@ -282,37 +282,36 @@ const WorkerComplaints = () => {
                 </div>
 
                 {/* Images */}
-                <div className="flex gap-2 flex-wrap">
+<div className="flex gap-2 flex-wrap">
 
-                  {complaint.images &&
-                  complaint.images
-                    .length > 0 ? (
-                    complaint.images
-                      .slice(0, 3)
-                      .map(
-                        (
-                          image,
-                          index
-                        ) => (
-                          <img
-                            key={index}
-                            src={`https://complaintms-backend-7d29.onrender.com/uploads/${image}`}
-                            alt="Complaint"
-                            onClick={() =>
-                              setPreviewImage(
-                                `https://complaintms-backend-7d29.onrender.com/uploads/${image}`
-                              )
-                            }
-                            className="w-16 h-16 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
-                          />
-                        )
-                      )
-                  ) : (
-                    <div className="text-gray-400 text-sm">
-                      No Images
-                    </div>
-                  )}
-                </div>
+  {complaint.images &&
+  complaint.images.length > 0 ? (
+    complaint.images
+      .slice(0, 3)
+      .map(
+        (
+          image,
+          index
+        ) => (
+          <img
+            key={index}
+            src={`http://localhost:5000/uploads/${image}`}
+            alt="Complaint"
+            onClick={() =>
+              setPreviewImage(
+                `http://localhost:5000/uploads/${image}`
+              )
+            }
+            className="w-16 h-16 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
+          />
+        )
+      )
+  ) : (
+    <div className="text-gray-400 text-sm">
+      No Images
+    </div>
+  )}
+</div>
 
                 {/* Priority */}
                 <div>
@@ -390,37 +389,36 @@ const WorkerComplaints = () => {
               {/* Left */}
               <div>
 
-                {/* Images Gallery */}
-                {selectedComplaint.images &&
-                selectedComplaint.images
-                  .length > 0 ? (
-                  <div className="grid grid-cols-2 gap-4">
+               {/* Images Gallery */}
+{selectedComplaint.images &&
+selectedComplaint.images.length >
+  0 ? (
+  <div className="grid grid-cols-2 gap-4">
 
-                    {selectedComplaint.images.map(
-                      (
-                        image,
-                        index
-                      ) => (
-                        <img
-                          key={index}
-                          src={`https://complaintms-backend-7d29.onrender.com/uploads/${image}`}
-                          alt="Complaint"
-                          onClick={() =>
-                            setPreviewImage(
-                              `https://complaintms-backend-7d29.onrender.com/uploads/${image}`
-                            )
-                          }
-                          className="w-full h-48 object-cover rounded-2xl border cursor-pointer hover:opacity-90 hover:scale-[1.02] transition"
-                        />
-                      )
-                    )}
-                  </div>
-                ) : (
-                  <div className="h-80 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
-                    No Images
-                  </div>
-                )}
-
+    {selectedComplaint.images.map(
+      (
+        image,
+        index
+      ) => (
+        <img
+          key={index}
+          src={`http://localhost:5000/uploads/${image}`}
+          alt="Complaint"
+          onClick={() =>
+            setPreviewImage(
+              `http://localhost:5000/uploads/${image}`
+            )
+          }
+          className="w-full h-48 object-cover rounded-2xl border cursor-pointer hover:opacity-90 hover:scale-[1.02] transition"
+        />
+      )
+    )}
+  </div>
+) : (
+  <div className="h-80 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
+    No Images
+  </div>
+)}
                 {/* Description */}
                 <div className="mt-8">
 

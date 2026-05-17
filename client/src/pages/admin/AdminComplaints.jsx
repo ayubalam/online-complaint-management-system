@@ -73,25 +73,25 @@ const AdminComplaints = () => {
   };
 
   // Fetch Workers
-  const fetchWorkers = async () => {
-    try {
-      const data =
-        await getWorkers();
+const fetchWorkers = async () => {
+  try {
+    const data =
+      await getWorkers();
 
-      setWorkers(
-  data.filter(
-    (user) =>
-      user.role?.toLowerCase() ===
-      "worker"
-  )
-);
-    } catch (error) {
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to load workers"
-      );
-    }
-  };
+    // Backend already returns only workers
+    setWorkers(data);
+
+    console.log(
+      "Workers:",
+      data
+    );
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message ||
+        "Failed to load workers"
+    );
+  }
+};
 
   useEffect(() => {
     const loadData = async () => {
@@ -560,182 +560,183 @@ const AdminComplaints = () => {
                 ✕
               </button>
             </div>
+{/* Main */}
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-            {/* Main */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Left */}
-                   <div>
-                         {selectedComplaint.images &&
-                   selectedComplaint.images.length > 0 ? (
-                       <img
-                  src={`https://complaintms-backend-7d29.onrender.com/uploads/${selectedComplaint.images[0]}`}
-                   alt="Complaint"
-                   className="w-full h-72 object-cover rounded-2xl border"
-                     />
-                  ) : (
-                   <div className="w-full h-72 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
-                 No Image
-                 </div>
-                )}
+  {/* Left */}
+  <div>
+    {selectedComplaint.images &&
+    selectedComplaint.images.length >
+      0 ? (
+      <img
+        src={`http://localhost:5000/uploads/${selectedComplaint.images[0]}`}
+        alt="Complaint"
+        className="w-full h-72 object-cover rounded-2xl border"
+      />
+    ) : (
+      <div className="w-full h-72 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
+        No Image
+      </div>
+    )}
 
-                {/* Description */}
-                <div className="mt-6">
-                 <h2 className="text-2xl font-bold mb-3">
-                     Description
-                </h2>
+    {/* Description */}
+    <div className="mt-6">
+      <h2 className="text-2xl font-bold mb-3">
+        Description
+      </h2>
 
-             <p className="text-gray-600 leading-7">
-                 {
-               selectedComplaint.description
+      <p className="text-gray-600 leading-7">
+        {
+          selectedComplaint.description
+        }
+      </p>
+    </div>
+  </div>
+
+  {/* Right */}
+  <div className="space-y-6">
+
+    {/* Info */}
+    <div className="bg-gray-50 rounded-2xl p-5">
+      <h2 className="text-2xl font-bold mb-5">
+        Complaint Info
+      </h2>
+
+      <div className="space-y-3">
+        <p>
+          <span className="font-semibold">
+            User:
+          </span>{" "}
+          {
+            selectedComplaint.user
+              ?.name
+          }
+        </p>
+
+        <p>
+          <span className="font-semibold">
+            Category:
+          </span>{" "}
+          {
+            selectedComplaint.category
+          }
+        </p>
+
+        <p>
+          <span className="font-semibold">
+            Location:
+          </span>{" "}
+          {
+            selectedComplaint.location
+          }
+        </p>
+
+        <p>
+          <span className="font-semibold">
+            Priority:
+          </span>{" "}
+          {
+            selectedComplaint.priority
+          }
+        </p>
+
+        <p>
+          <span className="font-semibold">
+            Status:
+          </span>{" "}
+          {
+            selectedComplaint.status
+          }
+        </p>
+      </div>
+    </div>
+
+    {/* Controls */}
+    <div className="bg-gray-50 rounded-2xl p-5">
+      <h2 className="text-2xl font-bold mb-5">
+        Manage Complaint
+      </h2>
+
+      {/* Assign */}
+      <div className="mb-5">
+        <label className="block mb-2 font-medium">
+          Assign Worker
+        </label>
+
+        <select
+          className="border p-3 rounded-xl w-full"
+          onChange={(e) =>
+            handleAssignWorker(
+              selectedComplaint._id,
+              e.target.value
+            )
+          }
+        >
+          <option value="">
+            Select Worker
+          </option>
+
+          {workers.map(
+            (worker) => (
+              <option
+                key={
+                  worker._id
                 }
-              </p>
-             </div>
-             </div>
+                value={
+                  worker._id
+                }
+              >
+                {
+                  worker.name
+                }
+              </option>
+            )
+          )}
+        </select>
+      </div>
 
-              {/* Right */}
-              <div className="space-y-6">
-                {/* Info */}
-                <div className="bg-gray-50 rounded-2xl p-5">
-                  <h2 className="text-2xl font-bold mb-5">
-                    Complaint Info
-                  </h2>
+      {/* Status */}
+      <div>
+        <label className="block mb-2 font-medium">
+          Update Status
+        </label>
 
-                  <div className="space-y-3">
-                    <p>
-                      <span className="font-semibold">
-                        User:
-                      </span>{" "}
-                      {
-                        selectedComplaint
-                          .user
-                          ?.name
-                      }
-                    </p>
+        <select
+          className="border p-3 rounded-xl w-full"
+          value={
+            selectedComplaint.status
+          }
+          onChange={(e) =>
+            handleStatusChange(
+              selectedComplaint._id,
+              e.target.value
+            )
+          }
+        >
+          <option>
+            Pending
+          </option>
 
-                    <p>
-                      <span className="font-semibold">
-                        Category:
-                      </span>{" "}
-                      {
-                        selectedComplaint.category
-                      }
-                    </p>
+          <option>
+            Assigned
+          </option>
 
-                    <p>
-                      <span className="font-semibold">
-                        Location:
-                      </span>{" "}
-                      {
-                        selectedComplaint.location
-                      }
-                    </p>
+          <option>
+            In Progress
+          </option>
 
-                    <p>
-                      <span className="font-semibold">
-                        Priority:
-                      </span>{" "}
-                      {
-                        selectedComplaint.priority
-                      }
-                    </p>
+          <option>
+            Resolved
+          </option>
 
-                    <p>
-                      <span className="font-semibold">
-                        Status:
-                      </span>{" "}
-                      {
-                        selectedComplaint.status
-                      }
-                    </p>
-                  </div>
-                </div>
-
-                {/* Controls */}
-                <div className="bg-gray-50 rounded-2xl p-5">
-                  <h2 className="text-2xl font-bold mb-5">
-                    Manage Complaint
-                  </h2>
-
-                  {/* Assign */}
-                  <div className="mb-5">
-                    <label className="block mb-2 font-medium">
-                      Assign Worker
-                    </label>
-
-                    <select
-                      className="border p-3 rounded-xl w-full"
-                      onChange={(e) =>
-                        handleAssignWorker(
-                          selectedComplaint._id,
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option value="">
-                        Select Worker
-                      </option>
-
-                      {workers.map(
-                        (worker) => (
-                          <option
-                            key={
-                              worker._id
-                            }
-                            value={
-                              worker._id
-                            }
-                          >
-                            {
-                              worker.name
-                            }
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </div>
-
-                  {/* Status */}
-                  <div>
-                    <label className="block mb-2 font-medium">
-                      Update Status
-                    </label>
-
-                    <select
-                      className="border p-3 rounded-xl w-full"
-                      value={
-                        selectedComplaint.status
-                      }
-                      onChange={(e) =>
-                        handleStatusChange(
-                          selectedComplaint._id,
-                          e.target.value
-                        )
-                      }
-                    >
-                      <option>
-                        Pending
-                      </option>
-
-                      <option>
-                        Assigned
-                      </option>
-
-                      <option>
-                        In Progress
-                      </option>
-
-                      <option>
-                        Resolved
-                      </option>
-
-                      <option>
-                        Rejected
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <option>
+            Rejected
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
 
             {/* Timeline */}
             {selectedComplaint.timeline &&

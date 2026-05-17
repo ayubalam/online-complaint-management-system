@@ -38,18 +38,32 @@ const Register = () => {
       reset();
 
       // Redirect by role
-      if (response.role === "admin") {
-        navigate("/admin/dashboard");
-      } else if (
-        response.role === "worker"
+      if (
+        response.role ===
+        "admin"
       ) {
-        navigate("/worker/dashboard");
+        navigate(
+          "/admin/dashboard"
+        );
+      } else if (
+        response.role ===
+        "worker"
+      ) {
+        navigate(
+          "/worker/dashboard"
+        );
       } else {
-        navigate("/user/dashboard");
+        navigate(
+          "/user/dashboard"
+        );
       }
     } catch (error) {
+      console.log(error);
+
       toast.error(
-        error.response?.data?.message ||
+        error.response?.data
+          ?.message ||
+          error.message ||
           "Registration failed"
       );
     }
@@ -63,7 +77,9 @@ const Register = () => {
         </h1>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(
+            onSubmit
+          )}
           className="space-y-4"
         >
           <input
@@ -77,14 +93,18 @@ const Register = () => {
             type="email"
             placeholder="Email"
             className="w-full border p-3 rounded-lg"
-            {...register("email")}
+            {...register(
+              "email"
+            )}
           />
 
           <input
             type="password"
             placeholder="Password"
             className="w-full border p-3 rounded-lg"
-            {...register("password")}
+            {...register(
+              "password"
+            )}
           />
 
           <select
@@ -111,7 +131,8 @@ const Register = () => {
 
         {/* Login Link */}
         <p className="text-center mt-4 text-gray-600">
-          Already have an account?{" "}
+          Already have an
+          account?{" "}
           <Link
             to="/login"
             className="text-indigo-600 font-semibold hover:underline"
@@ -124,4 +145,4 @@ const Register = () => {
   );
 };
 
-export default Register;  
+export default Register;
