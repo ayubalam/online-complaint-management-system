@@ -78,7 +78,12 @@ const AdminComplaints = () => {
       const data =
         await getWorkers();
 
-      setWorkers(data);
+      setWorkers(
+  data.filter(
+    (user) =>
+      user.role === "worker"
+  )
+);
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -557,33 +562,34 @@ const AdminComplaints = () => {
 
             {/* Main */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Left */}
-              <div>
-                {selectedComplaint.image ? (
-                  <img
-                    src={`https://complaintms-backend-7d29.onrender.com/uploads/${selectedComplaint.image}`}
-                    alt="Complaint"
-                    className="w-full h-72 object-cover rounded-2xl border"
-                  />
-                ) : (
-                  <div className="w-full h-72 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
-                    No Image
-                  </div>
+            {/* Left */}
+                   <div>
+                         {selectedComplaint.images &&
+                   selectedComplaint.images.length > 0 ? (
+                       <img
+                  src={`https://complaintms-backend-7d29.onrender.com/uploads/${selectedComplaint.images[0]}`}
+                   alt="Complaint"
+                   className="w-full h-72 object-cover rounded-2xl border"
+                     />
+                  ) : (
+                   <div className="w-full h-72 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
+                 No Image
+                 </div>
                 )}
 
                 {/* Description */}
                 <div className="mt-6">
-                  <h2 className="text-2xl font-bold mb-3">
-                    Description
-                  </h2>
+                 <h2 className="text-2xl font-bold mb-3">
+                     Description
+                </h2>
 
-                  <p className="text-gray-600 leading-7">
-                    {
-                      selectedComplaint.description
-                    }
-                  </p>
-                </div>
-              </div>
+             <p className="text-gray-600 leading-7">
+                 {
+               selectedComplaint.description
+                }
+              </p>
+             </div>
+             </div>
 
               {/* Right */}
               <div className="space-y-6">
