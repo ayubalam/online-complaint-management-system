@@ -295,12 +295,12 @@ const WorkerComplaints = () => {
         ) => (
           <img
             key={index}
-            src={`http://localhost:5000/uploads/${image}`}
+            src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${image}`}
             alt="Complaint"
             onClick={() =>
               setPreviewImage(
-                `http://localhost:5000/uploads/${image}`
-              )
+           `${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${image}`
+         )
             }
             className="w-16 h-16 object-cover rounded-xl border cursor-pointer hover:scale-105 transition"
           />
@@ -402,23 +402,23 @@ selectedComplaint.images.length >
       ) => (
         <img
           key={index}
-          src={`http://localhost:5000/uploads/${image}`}
+          src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${image}`}
           alt="Complaint"
           onClick={() =>
             setPreviewImage(
-              `http://localhost:5000/uploads/${image}`
-            )
-          }
-          className="w-full h-48 object-cover rounded-2xl border cursor-pointer hover:opacity-90 hover:scale-[1.02] transition"
-        />
-      )
-    )}
-  </div>
-) : (
-  <div className="h-80 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
-    No Images
-  </div>
-)}
+                  `${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${image}`
+              )
+              }
+             className="w-full h-48 object-cover rounded-2xl border cursor-pointer hover:opacity-90 hover:scale-[1.02] transition"
+            />
+               )
+                 )}
+             </div>
+                ) : (
+             <div className="h-80 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400">
+              No Images
+             </div>
+                )}
                 {/* Description */}
                 <div className="mt-8">
 

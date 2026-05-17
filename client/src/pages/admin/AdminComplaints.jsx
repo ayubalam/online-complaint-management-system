@@ -597,12 +597,12 @@ const fetchWorkers = async () => {
     selectedComplaint.images.length >
       0 ? (
       <img
-  src={`http://localhost:5000/uploads/${selectedComplaint.images[0]}`}
+ src={`${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${selectedComplaint.images[0]}`}
   alt="Complaint"
   onClick={() =>
-    setPreviewImage(
-      `http://localhost:5000/uploads/${selectedComplaint.images[0]}`
-    )
+   setPreviewImage(
+  `${import.meta.env.VITE_API_URL.replace("/api", "")}/uploads/${selectedComplaint.images[0]}`
+)
   }
   className="w-full h-72 object-cover rounded-2xl border cursor-pointer hover:scale-[1.02] transition"
 />
