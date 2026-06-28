@@ -8,7 +8,8 @@ const generateToken = require("../utils/generateToken");
 // Register User
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, role } =
+    // Role removed from request body
+    const { name, email, password } =
       req.body;
 
     const userExists = await User.findOne({
@@ -26,11 +27,12 @@ const registerUser = async (req, res) => {
     const hashedPassword =
       await bcrypt.hash(password, salt);
 
+    // Every new user is registered as "user"
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
-      role,
+      role: "user",
     });
 
     res.status(201).json({

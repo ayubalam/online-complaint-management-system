@@ -107,23 +107,6 @@ const Register = () => {
             )}
           />
 
-          <select
-            className="w-full border p-3 rounded-lg"
-            {...register("role")}
-          >
-            <option value="user">
-              User
-            </option>
-
-            <option value="worker">
-              Worker
-            </option>
-
-            <option value="admin">
-              Admin
-            </option>
-          </select>
-
           <button className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
             Register
           </button>
